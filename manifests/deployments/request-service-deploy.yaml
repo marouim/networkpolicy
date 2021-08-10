@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: request-service
+spec:
+  selector:
+    matchLabels:
+      app: request-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: request-service
+        role: service
+        service: request
+    spec:
+      containers:
+        - name: pythonapp
+          image: pythonapp:v1
+          env:
+            - name: LISTEN_PORT
+              value: "9004"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 400m
+              memory: 512Mi
+          ports:
+            - containerPort: 9004
+        - name: tmp-dev-test
+          image: pythonapp:v1
+          env:
+            - name: LISTEN_PORT
+              value: "9005"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 400m
+              memory: 512Mi
+          ports:
+            - containerPort: 9005

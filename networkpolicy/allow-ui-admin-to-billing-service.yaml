@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ui-admin-to-billing-service
+spec:
+  podSelector:
+    matchLabels:
+      role: service
+      service: billing
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              role: ui
+      ports:
+        - protocol: TCP
+          port: 9002

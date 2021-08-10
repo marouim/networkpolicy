@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-service
+spec:
+  selector:
+    matchLabels:
+      app: billing-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: billing-service
+        role: service
+        service: billing
+    spec:
+      containers:
+        - name: pythonapp
+          image: pythonapp:v1
+          env:
+            - name: LISTEN_PORT
+              value: "9002"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 400m
+              memory: 512Mi
+          ports:
+            - containerPort: 9002

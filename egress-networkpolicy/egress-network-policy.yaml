@@ -1,0 +1,16 @@
+apiVersion: network.openshift.io/v1
+kind: EgressNetworkPolicy
+metadata:
+  name: block-external-access
+spec:
+  egress:
+    - type: Allow
+      to:
+        cidrSelector: 8.8.8.8/32
+    - type: Allow
+      to:
+        dnsName: "console-openshift-console.apps.sno2.rhcasalab.com"
+
+    - type: Deny
+      to:
+        cidrSelector: 0.0.0.0/0

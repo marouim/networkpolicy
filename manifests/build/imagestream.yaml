@@ -6,4 +6,4 @@ metadata:
     build: pythonapp
 spec:
   lookupPolicy:
-    local: false
+    local: true

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-service
+spec:
+  selector:
+    matchLabels:
+      app: inventory-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: inventory-service
+        role: service
+        service: inventory
+    spec:
+      containers:
+        - name: pythonapp
+          image: pythonapp:v1
+          env:
+            - name: LISTEN_PORT
+              value: "9001"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 400m
+              memory: 512Mi
+          ports:
+            - containerPort: 9001
