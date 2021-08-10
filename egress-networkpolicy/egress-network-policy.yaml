@@ -6,10 +6,11 @@ spec:
   egress:
     - type: Allow
       to:
-        cidrSelector: 8.8.8.8/32
+        cidrSelector: 142.44.140.12/32
+
     - type: Allow
       to:
-        dnsName: "console-openshift-console.apps.sno2.rhcasalab.com"
+        dnsName: "www.redhat.com"
 
     - type: Deny
       to:
