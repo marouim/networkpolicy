@@ -174,3 +174,45 @@ Vérifier le deploiement de Request dans manifests/deployments/request-service-d
 
 Les NetworkPolicy permettent d'éviter que de pareilles erreurs ne soient exploitées. 
 
+### 8 - Contrôler l'accès des Pods vers le monde extérieur
+
+Il est possible de restreindre l'accès d'un projet vers les ressources externes. Le contrôle peut s'effectuer avec des adresses IP spécifiques, des bloques CIDR ou encore des adresses DNS. 
+
+```
+oc apply -f egress-networkpolicy/egress-network-policy.yaml
+```
+
+Vérifier la connection à divers sites 
+
+Exemple: www.google.com
+
+```
+oc rsh ui-user-6df9fbb747-zgs45 curl http://www.google.com -v 
+* Rebuilt URL to: http://www.google.com/
+*   Trying 172.217.13.164...
+* TCP_NODELAY set
+*   Trying 2607:f8b0:4020:806::2004...
+* TCP_NODELAY set
+* Immediate connect fail for 2607:f8b0:4020:806::2004: Network is unreachable
+```
+
+Exemple: www.redhat.com (site permit par le EgressNetworkPolicy)
+
+```
+oc rsh ui-user-6df9fbb747-zgs45 curl http://www.redhat.com -v 
+* Rebuilt URL to: http://www.redhat.com/
+*   Trying 96.16.40.103...
+* TCP_NODELAY set
+* Connected to www.redhat.com (96.16.40.103) port 80
+```
+
+Exemple: 142.44.140.12 (Adresse IP permise par le EgressNetworkPolicy)
+
+```
+oc rsh ui-user-6df9fbb747-zgs45 curl http://142.44.140.12 -v  
+* Rebuilt URL to: http://142.44.140.12/
+*   Trying 142.44.140.12...
+* TCP_NODELAY set
+* Connected to 142.44.140.12 (142.44.140.12) port 80
+```
+
